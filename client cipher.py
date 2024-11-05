@@ -13,6 +13,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as ns:
         b = {}
         plaintxt = input("plaintxt: ")
         if plaintxt == 'exit':
+            b['data'] = plaintxt
+            b['key'] = shift
+            ajson = json.dumps(b)
+            ns.sendto(ajson.encode(), ('127.0.0.1', 7777))
             break
         b['data'] = plaintxt
         b['key'] = shift
