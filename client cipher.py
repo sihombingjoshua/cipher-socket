@@ -9,9 +9,10 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as ns:
 
     shift = int(input("shift?: "))
 
-    while True:
+    i = 1
+    while True: 
         b = {}
-        plaintxt = input("plaintxt: ")
+        plaintxt = input("["+str(i)+"]plaintxt: ")
         if plaintxt == 'exit':
             b['data'] = plaintxt
             b['key'] = shift
@@ -23,6 +24,7 @@ with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as ns:
         ajson = json.dumps(b)
         ns.sendto(ajson.encode(), ('127.0.0.1', 7777))
         data, addr=ns.recvfrom(256)
-        print("ciphertext:", data.decode())
+        print("["+str(i)+"]ciphertext:", data.decode())
+        i += 1
 
 
