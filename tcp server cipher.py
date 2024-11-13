@@ -34,16 +34,17 @@ with socket.socket() as ns:
     ns.bind(('127.0.0.1',5555))
     ns.listen()
     con,addr=ns.accept()
-    req = json.loads(con.recv(256))
-    obj = Caesar(req["data"], req["key"])
-    if req["func"] == "enc":
-        resp = obj.encipher()
-    elif req["func"] == "dec":
-        resp = obj.decipher()
-    else:
-        resp = "error"
-    con.send(resp.encode())
-    print(req["data"])
-    print(resp)
+    while True:
+        req = json.loads(con.recv(256))
+        obj = Caesar(req["data"], req["key"])
+        if req["func"] == "enc":
+            resp = obj.encipher()
+        elif req["func"] == "dec":
+            resp = obj.decipher()
+        else:
+            resp = "error"
+        con.send(resp.encode())
+        print(req["data"])
+        print(resp)
 
 
