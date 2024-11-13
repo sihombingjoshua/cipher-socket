@@ -1,4 +1,4 @@
-import socket
+import socket # memanggil modul
 import json
 
 class Caesar:   # membuat kelas Caesar, untuk mengenkripsi
@@ -30,25 +30,25 @@ class Caesar:   # membuat kelas Caesar, untuk mengenkripsi
 
 
 
-with socket.socket() as ns:
-    ns.bind(('127.0.0.1',5555))
-    ns.listen()
-    con,addr=ns.accept()
+with socket.socket() as ns: # memanggil socket sebagai ns
+    ns.bind(('127.0.0.1',5555)) # melakukan bind server
+    ns.listen() # menunggu koneksi
+    con,addr=ns.accept() # menerima koneksi
 
-    while True:
-        req = json.loads(con.recv(256))
-        obj = Caesar(req["data"], req["key"])
-        if req["func"] == "enc":
-            resp = obj.encipher()
+    while True: # memulai program interaktif
+        req = json.loads(con.recv(256)) # menerima request dari client
+        obj = Caesar(req["data"], req["key"]) # mengambil data
+        if req["func"] == "enc":    # kondisi if untuk menentukan enkripsi atau dekripsi
+            resp = obj.encipher()   # memanggil method enkripsi
             proc = "enciphered"
         elif req["func"] == "dec":
-            resp = obj.decipher()
+            resp = obj.decipher()   # memanggil method dekripsi
             proc = "deciphered"
         else:
-            resp = "error"
+            resp = "error"  # jika masukan tidak valid
             proc = "invalid input"
-        con.send(resp.encode())
-        print("sent:",req["data"])
-        print(proc,":",resp)
+        con.send(resp.encode()) # mengirim hasil kepada client
+        print("sent:",req["data"])  # mencetak data pada layar
+        print(proc,":",resp)    # mencetak data pada layar
 
 
