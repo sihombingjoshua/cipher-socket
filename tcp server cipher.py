@@ -34,17 +34,21 @@ with socket.socket() as ns:
     ns.bind(('127.0.0.1',5555))
     ns.listen()
     con,addr=ns.accept()
+
     while True:
         req = json.loads(con.recv(256))
         obj = Caesar(req["data"], req["key"])
         if req["func"] == "enc":
             resp = obj.encipher()
+            proc = "enciphered"
         elif req["func"] == "dec":
             resp = obj.decipher()
+            proc = "deciphered"
         else:
             resp = "error"
+            proc = "invalid input"
         con.send(resp.encode())
-        print(req["data"])
-        print(resp)
+        print("sent:",req["data"])
+        print(proc,":",resp)
 
 
